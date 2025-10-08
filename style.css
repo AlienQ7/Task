@@ -1,0 +1,328 @@
+/* =========================================================
+   style.css (V1.1 - Shared Application Styles with Fixes)
+   ========================================================= */
+
+/* General Reset and Font */ 
+body {
+    font-family: 'Space Mono', monospace, 'Courier New', Courier;
+    background-color: #0d0d0d;      /* COLOR_MAIN_BG */
+    color: #00ff99;                 /* COLOR_MAIN_TEXT */
+    margin: 0;
+    padding: 0;
+}
+* {
+    box-sizing: border-box;
+}
+
+/* Header and Navigation */
+.header-bar {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 15px; 
+    background-color: #1a1a1a;      /* COLOR_HEADER_BG */
+    color: #fff; 
+    border-bottom: 2px solid #32CD32; /* COLOR_HEADER_ACCENT */
+    margin-bottom: 20px;
+}
+.header-menu { 
+    position: relative; 
+    z-index: 20; 
+} 
+.hamburger-btn {
+    background: none; 
+    color: #32CD32;             /* COLOR_HEADER_ACCENT */
+    border: 1px solid #32CD32;  /* COLOR_HEADER_ACCENT */
+    padding: 5px 10px; 
+    cursor: pointer; 
+    font-size: 20px; 
+    line-height: 1; 
+    border-radius: 4px;
+}
+.menu-dropdown {
+    display: none; 
+    position: absolute; 
+    top: 100%; 
+    right: 0; 
+    background-color: #333;             /* COLOR_DROPDOWN_BG */
+    border: 1px solid #ff0000;          /* COLOR_DROPDOWN_ALERT */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); 
+    z-index: 10; 
+    min-width: 200px; 
+    padding: 0;
+}
+.menu-dropdown.show { 
+    display: block; 
+}
+.menu-dropdown a, .menu-dropdown button {
+    display: block; 
+    width: 100%; 
+    text-align: left; 
+    padding: 10px 15px; 
+    background: #333;                   /* COLOR_DROPDOWN_BG */
+    border: none; 
+    cursor: pointer; 
+    color: #ff0000;                     /* COLOR_DROPDOWN_ALERT */
+    text-decoration: none; 
+    font-family: 'Space Mono', monospace; 
+    font-size: 14px;
+}
+.menu-dropdown a:hover, .menu-dropdown button:hover, .dropdown-sp-collected { 
+    background-color: #555; 
+}
+.dropdown-sp-collected { 
+    color: #00ff99 !important;          /* COLOR_MAIN_TEXT */
+    cursor: not-allowed !important; 
+}
+
+/* Rank and Stats */
+.rank-display { 
+    font-size: 16px; 
+    white-space: nowrap; 
+    font-weight: bold; 
+}
+.rank-label { 
+    color: #ff9900;                     /* COLOR_RANK_LABEL */
+    margin-right: 5px; 
+    font-weight: bold; 
+}
+.rank-title { 
+    color: #FFD700;                     /* COLOR_RANK_TITLE */
+    font-weight: bold; 
+    text-shadow: 0 0 5px #ff990080; 
+}
+.container { 
+    max-width: 600px; 
+    margin: 20px auto; 
+}
+.profile-container, .task-manager, .auth-container { 
+    padding: 20px; 
+    border: 1px solid #00ff9940; 
+    box-shadow: 0 0 10px #00ff9920; 
+    background-color: #282828;          /* COLOR_MODAL_BG */
+    margin-bottom: 20px; 
+}
+.stats-line { 
+    color: #0099ff; 
+}
+
+/* Auth/Input Styles */
+.auth-container h2 { 
+    color: #ff9900;                     /* COLOR_RANK_LABEL */
+}
+input[type="text"], input[type="password"], #new-task-input, #objective-input, .quota-input { 
+    width: 100%; 
+    padding: 10px; 
+    margin: 8px 0; 
+    box-sizing: border-box; 
+    background: #000; 
+    border: 1px solid #00ff99;          /* COLOR_MAIN_TEXT */
+    color: #00ff99;                     /* COLOR_MAIN_TEXT */
+}
+.auth-btn, .add-btn { 
+    background-color: #0099ff;          /* COLOR_BUTTON_ACTION */
+    color: white; 
+    padding: 10px 15px; 
+    border: none; 
+    cursor: pointer; 
+    width: 100%; 
+    margin-top: 10px; 
+}
+
+/* Objective Save Button */
+.objective-container { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 15px; 
+}
+.objective-container input { 
+    flex-grow: 1; 
+    margin-right: 5px; 
+}
+.objective-container button { 
+    padding: 10px 15px; 
+    background-color: #00ff99;          /* COLOR_BUTTON_SUCCESS */
+    color: #0d0d0d;                     /* COLOR_MAIN_BG */
+    font-weight: bold;
+    border: none; 
+    cursor: pointer; 
+}
+.objective-container button:hover { 
+    background-color: #00cc88; 
+} 
+
+/* Task List Styles */
+.task-slot { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 10px; 
+    padding: 8px; 
+    border: 1px solid #333; 
+    transition: all 0.3s; 
+    border-radius: 4px;
+}
+.task-slot.completed-slot { 
+    background-color: #00ff9910; 
+}
+.task-description-wrapper { 
+    flex-grow: 1; 
+    margin-left: 10px; 
+    display: flex; 
+    align-items: center; 
+}
+.task-description.completed { 
+    opacity: 0.5; 
+    color: #00ff99; 
+}
+.permanent-indicator { 
+    color: #FFD700;                     /* COLOR_RANK_TITLE */
+    margin-right: 8px; 
+    font-size: 1.1em; 
+    filter: drop-shadow(0 0 3px #FFD70099); 
+}
+.task-checkbox:checked { 
+    accent-color: #FFD700;              /* COLOR_RANK_TITLE */
+}
+
+/* Task Buttons */
+.toggle-btn, .remove-btn, .permanent-btn { /* Added permanent-btn here */
+    background: none; 
+    color: #00ff99;                     /* COLOR_MAIN_TEXT */
+    border: 1px solid #00ff99;          /* COLOR_MAIN_TEXT */
+    padding: 3px 6px; 
+    cursor: pointer; 
+    margin-left: 5px; 
+    border-radius: 4px; 
+    font-size: 14px; 
+    line-height: 1; 
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.remove-btn { 
+    color: #ff0000;                     /* COLOR_DROPDOWN_ALERT */
+    border-color: #ff0000;              /* COLOR_DROPDOWN_ALERT */
+}
+.remove-btn:hover { 
+    background-color: #ff0000; 
+    color: #0d0d0d;                     /* COLOR_MAIN_BG */
+}
+.permanent-btn[data-permanent="true"] { 
+    background-color: #ff9900;          /* COLOR_RANK_LABEL */
+    color: #0d0d0d;                     /* COLOR_MAIN_BG */
+    border-color: #ff9900; 
+}
+.permanent-btn[data-permanent="false"]:hover { 
+    background-color: #ff9900;
+}
+
+/* Add Task and SP Button */
+.add-task-controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 5px;
+}
+.add-task-controls #new-task-input { 
+    flex-grow: 1; 
+    margin: 0;
+}
+.add-task-controls #task-type-select {
+    padding: 10px; 
+    background: #000; 
+    color: #00ff99; 
+    border: 1px solid #00ff99;
+    margin: 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+}
+.add-task-controls .add-btn { 
+    width: auto; 
+    padding: 10px 15px;
+    margin: 0;
+}
+.sp-btn-container { 
+    margin-top: 15px; 
+}
+/* This was redundant and is removed: .sp-collected { ... } */
+
+
+/* =========================================================
+   --- NEW FAILURE SYSTEM & QUOTA OVERRIDES ---
+   ========================================================= */
+
+/* 1. Failure System Toggle Button in Menu */
+.failure-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    color: #ccc;
+    background-color: #333; /* Ensure it matches dropdown background */
+}
+.failure-toggle-wrapper span {
+    font-size: 0.9em;
+}
+.failure-toggle-wrapper button {
+    padding: 5px 8px;
+    font-size: 0.8em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    width: auto; /* Override general .auth-btn width: 100% */
+    margin-top: 0; /* Override general .auth-btn margin-top: 10px */
+}
+/* Style based on data-enabled attribute set by JS */
+.failure-toggle-wrapper button[data-enabled="true"] {
+    background-color: #ff0000;          /* COLOR_DROPDOWN_ALERT (Red) */
+    color: white;
+}
+.failure-toggle-wrapper button[data-enabled="false"] {
+    background-color: #0099ff;          /* COLOR_BUTTON_ACTION (Blue) */
+    color: white;
+}
+.failure-toggle-wrapper button:hover {
+    opacity: 0.8;
+}
+
+/* 2. Daily Quota Input Group */
+.quota-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+    gap: 10px; /* Spacing between elements */
+}
+.quota-input-container .quota-label {
+    color: #ff9900; /* COLOR_RANK_LABEL */
+    font-weight: bold;
+    white-space: nowrap;
+}
+.quota-input-container .quota-input {
+    width: 60px; /* Small fixed width for the number input */
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+}
+
+/* 3. CRITICAL FIX: OVERRIDE FOR SMALLER SET QUOTA BUTTON */
+/* This specific selector is needed to beat the general .auth-btn style */
+.quota-input-container .auth-btn {
+    /* Use smaller padding to reduce width/height */
+    padding: 5px 10px;
+    
+    /* Force smaller dimensions */
+    font-size: 0.8em;
+    height: 35px;
+    min-height: 35px; /* Important to override min-height */
+    line-height: 15px;
+    width: auto; /* Allow button to shrink */
+    margin-top: 0; /* Remove top margin */
+}
+
+/* Delete button in dropdown should always be red (Override .menu-dropdown color) */
+.menu-dropdown button.delete-btn {
+    color: #ff0000; 
+}
