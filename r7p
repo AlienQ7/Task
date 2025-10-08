@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# --- CONFIGURATION ---
+PID_FILE="$HOME/php_hoster.pid"
+SERVER_HOST_PORT="0.0.0.0:8080"      # Server Fix: Listens on all interfaces
+CLIENT_ACCESS_URL="http://0.0.0.0:8080" # Client Fix: Uses the specific URL that works
+# --- END CONFIGURATION ---
+
+# Function to kill the server
+kill_server() {
+    if [[ -f "$PID_FILE" ]]; then
+        SERVER_PID=$(cat "$PID_FILE")
+        if ps -p "$SERVER_PID" > /dev/null; then
+            echo -e "\033[33m\t\t⟨ Attempting to kill Server (PID: $SERVER_PID) ⟩\033[0m"
+            kill -9 "$SERVER_PID" 2>/dev/null
+        fi
+        rm -f "$PID_FILE"
+        echo -e "\033[31m\t\t⟨ Cleanup Complete ⟩\033[0m"
+    fi
+}
+
+# --- EXPLICIT KILL COMMAND HANDLER ---
+if [[ "$1" == "kill" ]]; then
+    kill_server
+    exit 0
+fi
+
+# Trap: Ensures the server is killed if the script is terminated unexpectedly
+trap kill_server EXIT
+
+# --- MAIN EXECUTION ---
+echo -e "\033[1;31m\n\t\t ░█░█░█▀█░█▀▀░▀█▀░█▀█░█░█░█▀█"
+echo -e "\t\t ░█▀█░█░█░▀▀█░░█░░█▀▀░█▀█░█▀▀"
+echo -e "\t\t ░▀░▀░▀▀▀░▀▀▀░░▀░░▀░░░▀░▀░▀░░V7.4 (0.0.0.0 Fix)"
+
+# --- 1. Check for Running Server ---
+if [[ -f "$PID_FILE" ]]; then
+    SERVER_PID=$(cat "$PID_FILE")
+    if ps -p "$SERVER_PID" > /dev/null; then
+        echo -e "\033[33m\t\t⟨ Server already running (PID: $SERVER_PID). Please run 'r7p kill' first. ⟩\033[0m"
+        exit 1
+    else
+        rm -f "$PID_FILE" # Clean up stale PID
+    fi
+fi
+
+# --- 2. Input and Validation Loop ---
+while true; do
+    read -p $'\e[1;32mEnter File Name:\e[34m ' hostp
+    if [[ ! "$hostp" =~ \.(php|html|htm)$ ]]; then
+        echo -e "\033[31mError: Invalid file name.\033[0m\n"
+        continue
+    fi
+    if [[ ! -f "$hostp" ]]; then
+        echo -e "\033[31mError: File '$hostp' not found.\033[0m"
+        continue
+    fi
+    break
+done
+
+# --- 3. Start and Auto-Launch ---
+echo ""
+
+# Start the server on 0.0.0.0:8080
+setsid sh -c "php -S $SERVER_HOST_PORT -t . > /dev/null 2>&1" &
+SERVER_PID=$!
+echo "$SERVER_PID" > "$PID_FILE"
+disown -h %1 2>/dev/null
+
+# Construct the full, working URL
+FULL_URL="$CLIENT_ACCESS_URL/$hostp"
+
+echo -e "\033[32mServer started successfully (PID: $SERVER_PID).\033[0m"
+echo -e "\033[33mOpening browser to:\033[36m $FULL_URL\033[0m"
+
+# Auto-launch the browser with the fully constructed, working 0.0.0.0 address
+am start -a android.intent.action.VIEW -d "$FULL_URL"
+
+# Unset the trap and EXIT the script, leaving the server running.
+trap - EXIT
+echo -e "\033[31mScript exiting. Server remains LIVE (run 'r7p kill' to stop).\033[0m"
+exit 0
