@@ -5,7 +5,7 @@
 
 // --- CRITICAL CONFIGURATION ---
 // 1. THIS MUST BE FIRST to define DB_FILE_PATH, TIMEZONE_RESET, etc.
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
 require_once 'config.php';
 require_once 'DbManager.php';
